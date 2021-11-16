@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import co.electriccoin.zcash.preference.api.PreferenceProvider
-import co.electriccoin.zcash.preference.model.entry.Key
+import co.electriccoin.zcash.preference.model.entry.PreferenceKey
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -14,6 +14,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 
@@ -35,27 +36,27 @@ class EncryptedPreferenceProvider(
     private val dispatcher: CoroutineDispatcher
 ) : PreferenceProvider {
 
-    override suspend fun hasKey(key: Key) = withContext(dispatcher) {
-        sharedPreferences.contains(key.key)
+    override suspend fun hasKey(preferenceKey: PreferenceKey) = withContext(dispatcher) {
+        sharedPreferences.contains(preferenceKey.key)
     }
 
     @SuppressLint("ApplySharedPref")
-    override suspend fun putString(key: Key, value: String?) = withContext(dispatcher) {
+    override suspend fun putString(preferenceKey: PreferenceKey, value: String) = withContext(dispatcher) {
         val editor = sharedPreferences.edit()
 
-        editor.putString(key.key, value)
+        editor.putString(preferenceKey.key, value)
 
         editor.commit()
 
         Unit
     }
 
-    override suspend fun getString(key: Key) = withContext(dispatcher) {
-        sharedPreferences.getString(key.key, null)
+    override suspend fun getString(preferenceKey: PreferenceKey) = withContext(dispatcher) {
+        sharedPreferences.getString(preferenceKey.key, null)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun observe(key: Key): Flow<Unit> = callbackFlow<Unit> {
+    override suspend fun observe(preferenceKey: PreferenceKey): Flow<String?> = callbackFlow<Unit> {
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
             // Callback on main thread
             trySend(Unit)
@@ -69,6 +70,7 @@ class EncryptedPreferenceProvider(
             sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
         }
     }.flowOn(dispatcher)
+        .map { getString(preferenceKey) }
 
     companion object {
         suspend fun new(context: Context, filename: String): PreferenceProvider {

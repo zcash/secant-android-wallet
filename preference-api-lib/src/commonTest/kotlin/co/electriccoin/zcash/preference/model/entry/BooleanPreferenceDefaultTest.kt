@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 class BooleanPreferenceDefaultTest {
     @Test
     fun key() {
-        assertEquals(BooleanPreferenceDefaultFixture.KEY, BooleanPreferenceDefaultFixture.newTrue().key)
+        assertEquals(BooleanPreferenceDefaultFixture.KEY, BooleanPreferenceDefaultFixture.newTrue().preferenceKey)
     }
 
     @Test

@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class StringPreferenceDefaultTest {
     @Test
     fun key() {
-        assertEquals(StringDefaultPreferenceFixture.KEY, StringDefaultPreferenceFixture.new().key)
+        assertEquals(StringDefaultPreferenceFixture.KEY, StringDefaultPreferenceFixture.new().preferenceKey)
     }
 
     @Test

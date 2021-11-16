@@ -47,7 +47,7 @@ class EncryptedPreferenceProviderTest {
     fun hasKey_false() = runBlocking {
         val preferenceProvider = new()
 
-        assertFalse(preferenceProvider.hasKey(StringDefaultPreferenceFixture.new().key))
+        assertFalse(preferenceProvider.hasKey(StringDefaultPreferenceFixture.new().preferenceKey))
     }
 
     @Test
@@ -59,7 +59,7 @@ class EncryptedPreferenceProviderTest {
             putString(StringDefaultPreferenceFixture.KEY, expectedValue)
         }
 
-        assertTrue(preferenceProvider.hasKey(StringDefaultPreferenceFixture.new().key))
+        assertTrue(preferenceProvider.hasKey(StringDefaultPreferenceFixture.new().preferenceKey))
     }
 
     // Note: this test case relies on undocumented implementation details of SharedPreferences

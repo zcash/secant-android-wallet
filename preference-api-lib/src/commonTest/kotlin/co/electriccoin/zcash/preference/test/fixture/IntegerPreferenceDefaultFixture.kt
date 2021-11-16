@@ -1,10 +1,10 @@
 package co.electriccoin.zcash.preference.test.fixture
 
 import co.electriccoin.zcash.preference.model.entry.IntegerPreferenceDefault
-import co.electriccoin.zcash.preference.model.entry.Key
+import co.electriccoin.zcash.preference.model.entry.PreferenceKey
 
 object IntegerPreferenceDefaultFixture {
-    val KEY = Key("some_string_key") // $NON-NLS
+    val KEY = PreferenceKey("some_string_key") // $NON-NLS
     const val DEFAULT_VALUE = 123
-    fun new(key: Key = KEY, value: Int = DEFAULT_VALUE) = IntegerPreferenceDefault(key, value)
+    fun new(preferenceKey: PreferenceKey = KEY, value: Int = DEFAULT_VALUE) = IntegerPreferenceDefault(preferenceKey, value)
 }

@@ -25,6 +25,7 @@ The logical components of the app are implemented as a number of Gradle modules.
 
  * `app` — Compiles all of the modules together into the final application.  This module contains minimal actual code.  Note that the Java package structure for this module is under `cash.z.ecc.app` while the Android package name is `cash.z.ecc`.
  * `build-info-lib` — Collects information from the build environment (e.g. Git SHA, Git commit count) and compiles them into the application.  Can also be used for injection of API keys or other secrets.
+ * `configuration-api-lib` — Multiplatform interfances for remote configuration.
  * `ui-lib` — User interface that the user interacts with.  This contains 99% of the UI code, along with localizations, icons, and other assets.
  * preference
      * `preference-api-lib` — Multiplatform interfaces for key-value storage of preferences.

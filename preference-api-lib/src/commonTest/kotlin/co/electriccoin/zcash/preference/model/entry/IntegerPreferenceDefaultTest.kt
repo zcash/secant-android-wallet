@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class IntegerPreferenceDefaultTest {
     @Test
     fun key() {
-        assertEquals(IntegerPreferenceDefaultFixture.KEY, IntegerPreferenceDefaultFixture.new().key)
+        assertEquals(IntegerPreferenceDefaultFixture.KEY, IntegerPreferenceDefaultFixture.new().preferenceKey)
     }
 
     @Test

@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.map
  */
 interface PreferenceDefault<T> {
 
-    val key: Key
+    val key: PreferenceKey
 
     /**
      * @param preferenceProvider Provides actual preference values.

@@ -65,6 +65,7 @@ dependencyResolutionManagement {
             val javaVersion = extra["ANDROID_JVM_TARGET"].toString()
             val kotlinVersion = extra["KOTLIN_VERSION"].toString()
             val kotlinxCoroutinesVersion = extra["KOTLINX_COROUTINES_VERSION"].toString()
+            val kotlinxDatetimeVersion = extra["KOTLINX_DATETIME_VERSION"].toString()
             val zcashSdkVersion = extra["ZCASH_SDK_VERSION"].toString()
             val zcashBip39Version = extra["ZCASH_BIP39_VERSION"].toString()
 
@@ -94,6 +95,7 @@ dependencyResolutionManagement {
             alias("kotlin-reflect").to("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
             alias("kotlinx-coroutines-android").to("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxCoroutinesVersion")
             alias("kotlinx-coroutines-core").to("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+            alias("kotlinx-datetime").to("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
             alias("zcash-sdk").to("cash.z.ecc.android:zcash-android-sdk:$zcashSdkVersion")
             alias("zcash-bip39").to("cash.z.ecc.android:kotlin-bip39:$zcashBip39Version")
             alias("zcash-walletplgns").to("cash.z.ecc.android:zcash-android-wallet-plugins:$zcashBip39Version")
@@ -146,6 +148,7 @@ includeBuild("build-conventions")
 
 include("app")
 include("build-info-lib")
+include("configuration-api-lib")
 include("preference-api-lib")
 include("preference-impl-android-lib")
 include("sdk-ext-lib")

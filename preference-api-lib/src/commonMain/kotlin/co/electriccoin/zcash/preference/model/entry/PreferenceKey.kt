@@ -9,7 +9,7 @@ import kotlin.jvm.JvmInline
  * find a least common denominator with some reasonable limits on what the keys can contain.
  */
 @JvmInline
-value class Key(val key: String) {
+value class PreferenceKey(val key: String) {
     init {
         requireKeyConstraints(key)
     }
