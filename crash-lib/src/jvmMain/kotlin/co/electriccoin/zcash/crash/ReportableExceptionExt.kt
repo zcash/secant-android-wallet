@@ -12,7 +12,7 @@ suspend fun ReportableException.write(path: File) {
         appendLine("App version: $appVersion")
         appendLine("Is uncaught: $isUncaught")
         appendLine("Time: $time")
-        append(exceptionTrace)
+        append(exception.stackTraceToString())
     }
 
     withContext(Dispatchers.IO) {

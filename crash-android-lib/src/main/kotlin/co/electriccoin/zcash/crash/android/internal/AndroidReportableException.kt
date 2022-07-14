@@ -3,6 +3,7 @@ package co.electriccoin.zcash.crash.android.internal
 import android.content.Context
 import android.os.Bundle
 import co.electriccoin.zcash.crash.ReportableException
+import co.electriccoin.zcash.spackle.AndroidApiVersion
 import co.electriccoin.zcash.spackle.getPackageInfoCompat
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -17,8 +18,7 @@ fun ReportableException.Companion.new(
         ?: "null"
 
     return ReportableException(
-        throwable.javaClass.name,
-        throwable.stackTraceToString(),
+        throwable,
         versionName,
         isUncaught,
         clock.now()
@@ -26,30 +26,28 @@ fun ReportableException.Companion.new(
 }
 
 fun ReportableException.toBundle() = Bundle().apply {
-    // Although Exception is Serializable, some Kotlin Coroutines exception classes break this
-    // API contract.  Therefore we have to convert to a string here.
-    putSerializable(ReportableException.EXTRA_STRING_CLASS_NAME, exceptionClass)
-    putSerializable(ReportableException.EXTRA_STRING_TRACE, exceptionTrace)
+    putSerializable(ReportableException.EXTRA_SERIALIZABLE_THROWABLE, exception)
     putString(ReportableException.EXTRA_STRING_APP_VERSION, appVersion)
     putBoolean(ReportableException.EXTRA_BOOLEAN_IS_UNCAUGHT, isUncaught)
     putLong(ReportableException.EXTRA_LONG_WALLTIME_MILLIS, time.toEpochMilliseconds())
 }
 
 fun ReportableException.Companion.fromBundle(bundle: Bundle): ReportableException {
-    val className = bundle.getString(EXTRA_STRING_CLASS_NAME)!!
-    val trace = bundle.getString(EXTRA_STRING_TRACE)!!
+    val throwable: Throwable = if (co.electriccoin.zcash.spackle.AndroidApiVersion.isAtLeastT) {
+        bundle.getSerializable(EXTRA_SERIALIZABLE_THROWABLE, kotlin.Throwable::class.java)!!
+    } else {
+        @Suppress("Deprecation")
+        bundle.getSerializable(EXTRA_SERIALIZABLE_THROWABLE)!! as Throwable
+    }
     val appVersion = bundle.getString(EXTRA_STRING_APP_VERSION)!!
     val isUncaught = bundle.getBoolean(EXTRA_BOOLEAN_IS_UNCAUGHT, false)
     val time = Instant.fromEpochMilliseconds(bundle.getLong(EXTRA_LONG_WALLTIME_MILLIS, 0))
 
-    return ReportableException(className, trace, appVersion, isUncaught, time)
+    return ReportableException(throwable, appVersion, isUncaught, time)
 }
 
-private val ReportableException.Companion.EXTRA_STRING_CLASS_NAME
-    get() = "co.electriccoin.zcash.crash.extra.STRING_CLASS_NAME" // $NON-NLS-1$
-
-private val ReportableException.Companion.EXTRA_STRING_TRACE
-    get() = "co.electriccoin.zcash.crash.extra.STRING_TRACE" // $NON-NLS-1$
+private val ReportableException.Companion.EXTRA_SERIALIZABLE_THROWABLE
+    get() = "co.electriccoin.zcash.crash.extra.SERIALIZABLE_THROWABLE" // $NON-NLS-1$
 
 private val ReportableException.Companion.EXTRA_STRING_APP_VERSION: String
     get() = "co.electriccoin.zcash.crash.extra.STRING_APP_VERSION" // $NON-NLS-1$

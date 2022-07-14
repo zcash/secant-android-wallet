@@ -59,6 +59,9 @@ import co.electriccoin.zcash.ui.fixture.WalletSnapshotFixture
 import co.electriccoin.zcash.ui.screen.home.HomeTag
 import co.electriccoin.zcash.ui.screen.home.model.WalletDisplayValues
 import co.electriccoin.zcash.ui.screen.home.model.WalletSnapshot
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Preview
 @Composable
@@ -128,6 +131,7 @@ private fun HomeTopAppBar(
     )
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 private fun DebugMenu(resetSdk: () -> Unit, wipeEntireWallet: () -> Unit) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -142,9 +146,11 @@ private fun DebugMenu(resetSdk: () -> Unit, wipeEntireWallet: () -> Unit) {
         DropdownMenuItem(
             text = { Text("Throw Uncaught Exception") },
             onClick = {
-                // Supposed to be generic, for manual debugging only
-                @Suppress("TooGenericExceptionThrown")
-                throw RuntimeException("Manually crashed from debug menu")
+                GlobalScope.launch {
+                    // Supposed to be generic, for manual debugging only
+                    @Suppress("TooGenericExceptionThrown")
+                    throw RuntimeException("Manually crashed from debug menu")
+                }
             }
         )
         DropdownMenuItem(

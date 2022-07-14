@@ -5,9 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 
 object ReportableExceptionFixture {
-    private val EXCEPTION = RuntimeException("I am exceptional")
-    val CLASS = EXCEPTION.javaClass.name
-    val TRACE = EXCEPTION.stackTraceToString()
+    val EXCEPTION = RuntimeException("I am exceptional")
     const val APP_VERSION = "1.0.2"
     const val IS_UNCAUGHT = true
 
@@ -15,10 +13,9 @@ object ReportableExceptionFixture {
     val TIMESTAMP = "2022-04-15T11:28:54Z".toInstant()
 
     fun new(
-        className: String = CLASS,
-        trace: String = TRACE,
+        exception: Throwable = EXCEPTION,
         appVersion: String = APP_VERSION,
         isUncaught: Boolean = IS_UNCAUGHT,
         time: Instant = TIMESTAMP
-    ) = ReportableException(className, trace, appVersion, isUncaught, time)
+    ) = ReportableException(exception, appVersion, isUncaught, time)
 }

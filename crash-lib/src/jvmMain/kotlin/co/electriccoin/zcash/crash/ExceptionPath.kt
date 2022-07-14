@@ -15,7 +15,7 @@ object ExceptionPath {
 
     @Suppress("MaxLineLength")
     fun newExceptionFileName(exception: ReportableException, uuid: UUID = UUID.randomUUID()) =
-        "${exception.time.epochSeconds}$SEPARATOR$uuid$SEPARATOR${exception.exceptionClass}$SEPARATOR${exception.isUncaught}.$TYPE"
+        "${exception.time.epochSeconds}$SEPARATOR$uuid$SEPARATOR${exception.exception.javaClass.simpleName}$SEPARATOR${exception.isUncaught}.$TYPE"
 
     // The exceptions are really just for debugging
     @Suppress("ThrowsCount")
