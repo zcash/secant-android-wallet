@@ -3,7 +3,7 @@
 package cash.z.ecc.sdk.type
 
 import android.content.Context
-import cash.z.ecc.android.sdk.type.ZcashNetwork
+import cash.z.ecc.android.sdk.model.ZcashNetwork
 import cash.z.ecc.sdk.ext.R
 
 /*

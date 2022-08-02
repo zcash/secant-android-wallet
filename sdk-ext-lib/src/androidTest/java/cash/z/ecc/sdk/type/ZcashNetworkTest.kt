@@ -2,7 +2,7 @@ package cash.z.ecc.sdk.type
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.SmallTest
-import cash.z.ecc.android.sdk.type.ZcashNetwork
+import cash.z.ecc.android.sdk.model.ZcashNetwork
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

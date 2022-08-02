@@ -6,9 +6,11 @@ import cash.z.ecc.android.bip39.toSeed
 import cash.z.ecc.android.sdk.Initializer
 import cash.z.ecc.android.sdk.Synchronizer
 import cash.z.ecc.android.sdk.ext.onFirst
+import cash.z.ecc.android.sdk.model.LightWalletEndpoint
 import cash.z.ecc.android.sdk.tool.DerivationTool
 import cash.z.ecc.android.sdk.type.UnifiedViewingKey
-import cash.z.ecc.android.sdk.type.ZcashNetwork
+import cash.z.ecc.android.sdk.model.ZcashNetwork
+import cash.z.ecc.android.sdk.model.defaultForNetwork
 import cash.z.ecc.sdk.model.PersistableWallet
 import cash.z.ecc.sdk.type.fromResources
 import co.electriccoin.zcash.spackle.LazyWithArgument
@@ -237,6 +239,6 @@ private suspend fun PersistableWallet.toConfig(): Initializer.Config {
     val vk = deriveViewingKey()
 
     return Initializer.Config {
-        it.importWallet(vk, birthday, network, network.defaultHost, network.defaultPort)
+        it.importWallet(vk, birthday, network, LightWalletEndpoint.defaultForNetwork(network))
     }
 }

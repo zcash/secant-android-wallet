@@ -1,7 +1,7 @@
 package cash.z.ecc.sdk.model
 
 import androidx.test.filters.SmallTest
-import cash.z.ecc.android.sdk.type.ZcashNetwork
+import cash.z.ecc.android.sdk.model.ZcashNetwork
 import cash.z.ecc.sdk.fixture.PersistableWalletFixture
 import cash.z.ecc.sdk.fixture.SeedPhraseFixture
 import cash.z.ecc.sdk.test.count
